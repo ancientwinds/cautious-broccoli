@@ -4,8 +4,9 @@
   "description": "Thanks to github developers for the great name suggestion",
   "main": "weather.js",
   "scripts": {
-    "test": "test",
-    "build": "tsc"
+    "test": "nyc mocha -r ts-node/register 'test/**/*.spec.ts'",
+    "build": "tsc",
+    "start": "tsc && node ./bin/src/weather.js \"G2E2E7, L'Ancienne-Lorette, Montréal New-York, 80,122\""
   },
   "repository": {
     "type": "git",
@@ -18,13 +19,25 @@
   },
   "homepage": "https://github.com/ancientwinds/cautious-broccoli#readme",
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^11.13.7",
     "chai": "^4.2.0",
-    "mocha": "^6.1.4"
+    "mocha": "^6.1.4",
+    "nyc": "^14.0.0",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.5"
   },
   "dependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/figlet": "^1.2.0",
+    "@types/request-promise-native": "^1.0.16",
+    "chalk": "^2.4.2",
+    "figlet": "^1.2.1",
     "inversify": "^5.0.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.5.1",
-    "tsyringe": "^3.2.0"
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7",
+    "rxjs": "^6.5.1"
   }
 }

@@ -3,5 +3,7 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(require("./ExternalAPINotAvailableError"));
-__export(require("./LocationNotFoundError"));
+__export(require("./externalAPINotAvailableError"));
+__export(require("./locationNotFoundError"));
+__export(require("./invalidArgumentsError"));
+__export(require("./accuWeatherApiKeyNotFoundError"));

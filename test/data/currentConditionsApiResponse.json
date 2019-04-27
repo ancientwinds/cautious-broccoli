@@ -1,0 +1,25 @@
+[
+   {
+      "LocalObservationDateTime":"2019-04-26T08:22:00-04:00",
+      "EpochTime":1556281320,
+      "WeatherText":"Mostly cloudy",
+      "WeatherIcon":6,
+      "HasPrecipitation":false,
+      "PrecipitationType":null,
+      "IsDayTime":true,
+      "Temperature":{
+         "Metric":{
+            "Value":3.9,
+            "Unit":"C",
+            "UnitType":17
+         },
+         "Imperial":{
+            "Value":39.0,
+            "Unit":"F",
+            "UnitType":18
+         }
+      },
+      "MobileLink":"http://m.accuweather.com/en/ca/lancienne-lorette/g2e/current-weather/46023_pc?lang=en-us",
+      "Link":"http://www.accuweather.com/en/ca/lancienne-lorette/g2e/current-weather/46023_pc?lang=en-us"
+   }
+]

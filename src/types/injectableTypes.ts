@@ -1,3 +1,5 @@
 export const TYPES = {
-    WeatherService: Symbol("WeatherService")
+    IWeatherApplication: Symbol('IApplication'),
+    IWeatherService: Symbol('IWeatherService'),
+    ISimpleCacheService: Symbol('ISimpleCacheService')
 };

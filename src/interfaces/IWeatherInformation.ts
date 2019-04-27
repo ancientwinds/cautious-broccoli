@@ -1,9 +1,9 @@
 import {ITemperatureInfo} from './ITemperatureInfo';
+import {ILocationInformation} from './ILocationInformation';
 
 export interface IWeatherInformation {
-  localDateTime: number;
+  location: ILocationInformation;
   localObservationDateTime: number;
-  localTimezone: number;
   temperature: {
     metric: ITemperatureInfo,
     imperial: ITemperatureInfo

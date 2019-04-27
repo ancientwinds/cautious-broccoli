@@ -1,33 +1,20 @@
-import {inject} from 'inversify';
+import {IWeatherApplication} from './interfaces/IWeatherApplication';
+import container from './container';
 import {TYPES} from './types/injectableTypes';
-import {IWeatherService} from './interfaces/IWeatherService';
-import {Subscription} from 'rxjs';
-import {IWeatherInformation} from './interfaces/IWeatherInformation';
+import {LogHelper} from './helpers/helpers';
 
-class WeatherApplication {
-  private weatherService: IWeatherService;
-  private weatherServiceSubscription: Subscription;
-
-  constructor(@inject(TYPES.WeatherService) weatherService: IWeatherService) {
-    this.weatherService = weatherService;
-
-    this.weatherServiceSubscription = this.weatherService.messages.subscribe(
-        (message: IWeatherInformation) => { this.displayWeatherInformation(message); },
-        (error) => { this.displayError(error) }
-    );
-  }
-
-  private displayWeatherInformation(weatherResponse: IWeatherInformation): void {
-    // TODO: Display message
-  }
-
-  private displayError(error: Error): void {
-    // TODO: Display error, witch chalk to color it red
-  }
-
-  public fetchWeatherInformation(locations: string[]): void {
-    locations.forEach(
-      (location: string) => this.weatherService.fetchWeatherInformation(location)
-    )
-  }
-}
+const application: IWeatherApplication = container.get<IWeatherApplication>(TYPES.IWeatherApplication);
+application.run()
+  .then(
+    () => {
+      LogHelper.LogEmptyLines(1);
+      LogHelper.Goodbye();
+      //process.exit(0);
+    }
+  )
+  .catch(
+    (error) => {
+      LogHelper.Error(`Oups... an unexpected error happened. Please contact the developper. (${JSON.stringify(error)})`);
+      process.exit(0);
+    }
+  );
