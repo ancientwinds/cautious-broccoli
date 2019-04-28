@@ -1,13 +1,29 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["es6", "dom"],
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "importHelpers": true,
+    "sourceMap": false,
+    "baseUrl": "./",
     "outDir": "./bin",
-    "strict": true,
-    "esModuleInterop": true,
+    "declaration": false,
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
-  }
+    "target": "es5",
+    "module": "commonjs",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "types": []
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "tests/**/*"
+  ]
 }

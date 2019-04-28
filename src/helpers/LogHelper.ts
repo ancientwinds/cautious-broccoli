@@ -2,12 +2,20 @@ import chalk from 'chalk';
 import {textSync} from 'figlet';
 
 export class LogHelper {
-  public static Title(message: string): void {
-    const formattedMessage: string = chalk.green(
-      textSync('Weather', '4Max')
-    );
+  public static Title(): void {
+    let titleString: string = 'Weather Application';
+    titleString = titleString.padStart(48);
+    titleString = titleString.padEnd(78);
 
+    const formattedMessage: string = `${chalk.bgGreen(' ')}${chalk.green(titleString)}${chalk.bgGreen(' ')}`;
+    const line: string = chalk.bgGreen(''.padStart(80, ' '));
+    const emptyLine: string = `${chalk.bgGreen(' ')}${''.padStart(78, ' ')}${chalk.bgGreen(' ')}`;
+
+    console.log(line);
+    console.log(emptyLine);
     console.log(formattedMessage);
+    console.log(emptyLine);
+    console.log(line);
     console.log('');
   }
 

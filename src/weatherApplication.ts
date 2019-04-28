@@ -39,15 +39,13 @@ export class WeatherApplication implements IWeatherApplication {
 
   public loadCacheFromFile(): void {
     try {
-      const serializedCacheData: string = IOHelper.LoadStringFromFile(`${WeatherApplication.name}.cache.json`);
+      if (IOHelper.FileExists('weather.cache.json')) {
+        const serializedCacheData: string = IOHelper.LoadStringFromFile('weather.cache.json');
 
-      this.weatherService.deserializeCache(serializedCacheData)
+        this.weatherService.deserializeCache(serializedCacheData)
+      }
     } catch(error) {
       switch(error.constructor) {
-        case FileNotFoundError: {
-          LogHelper.Log('Looks like this is a fresh start as no cache serialization has been found!');
-          break;
-        }
         case CorruptedCacheSerializationError: {
           LogHelper.Warn('Hum... looks like you cache serialization is corrupted');
           break;
@@ -63,7 +61,7 @@ export class WeatherApplication implements IWeatherApplication {
     try {
       const serializedCacheData: string = this.weatherService.serializeCache();
 
-      IOHelper.SaveStringToFile(`${WeatherApplication.name}.cache.json`, serializedCacheData);
+      IOHelper.SaveStringToFile('weather.cache.json', serializedCacheData);
     } catch (error) {
       LogHelper.Error(`An unknown error has been thrown when saving the cache serialization to a file: ${JSON.stringify(error)}`);
     }
@@ -107,7 +105,7 @@ export class WeatherApplication implements IWeatherApplication {
   }
 
   public async run(): Promise<void> {
-    LogHelper.Title('Weather Application');
+    LogHelper.Title();
 
     const args: string[] = ProcessHelper.ParseArguments();
 

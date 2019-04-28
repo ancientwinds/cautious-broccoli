@@ -13,4 +13,8 @@ export class IOHelper {
 
     return readFileSync(filepath).toString('utf8');
   }
+
+  public static FileExists(filepath: string): boolean {
+    return existsSync(filepath);
+  }
 }
