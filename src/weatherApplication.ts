@@ -45,14 +45,10 @@ export class WeatherApplication implements IWeatherApplication {
         this.weatherService.deserializeCache(serializedCacheData)
       }
     } catch(error) {
-      switch(error.constructor) {
-        case CorruptedCacheSerializationError: {
-          LogHelper.Warn('Hum... looks like you cache serialization is corrupted');
-          break;
-        }
-        default: {
-          LogHelper.Error(`An unknown error has been thrown when loading the cache serialization: ${JSON.stringify(error)}`);
-        }
+      if (error instanceof CorruptedCacheSerializationError) {
+        LogHelper.Warn('Hum... looks like you cache serialization is corrupted');
+      } else {
+        LogHelper.Error(`An unknown error has been thrown when loading the cache serialization: ${JSON.stringify(error)}`);
       }
     }
   }
@@ -63,6 +59,7 @@ export class WeatherApplication implements IWeatherApplication {
 
       IOHelper.SaveStringToFile('weather.cache.json', serializedCacheData);
     } catch (error) {
+      // TODO: Check error type and handle accordingly
       LogHelper.Error(`An unknown error has been thrown when saving the cache serialization to a file: ${JSON.stringify(error)}`);
     }
   }
