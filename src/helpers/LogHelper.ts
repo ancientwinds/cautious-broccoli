@@ -1,6 +1,16 @@
 import chalk from 'chalk';
+import {textSync} from 'figlet';
 
 export class LogHelper {
+  public static Title(message: string): void {
+    const formattedMessage: string = chalk.green(
+      textSync('Weather', '4Max')
+    );
+
+    console.log(formattedMessage);
+    console.log('');
+  }
+
   public static Log(message: string): void {
     console.log(message);
   }
@@ -14,7 +24,8 @@ export class LogHelper {
   }
 
   public static Goodbye(): void {
-    console.log(`${chalk.bgBlue.white.bold('Goodbye! Hoping that the weather will be nice on you.')}`);
+    console.log(chalk.green.bold('Goodbye! Hope you\'ll get nice weather.'));
+    console.log('\n');
   }
 
   public static LogEmptyLines(numberOfEmptyLines: number): void {

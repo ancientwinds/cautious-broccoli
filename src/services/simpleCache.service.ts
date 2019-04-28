@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import {injectable} from "inversify";
 import {ICacheElement} from '../interfaces/ICacheElement';
-import {LogHelper} from '../helpers/LogHelper';
 import {CorruptedCacheSerializationError} from '../errors/corruptedCacheSerializationError';
 import {ISimpleCacheService} from '../interfaces/ISimpleCacheService';
 
@@ -32,7 +31,7 @@ export class SimpleCacheService implements ISimpleCacheService {
       return null;
     }
 
-    return this.cachedItems[key];
+    return (this.cachedItems[key] as ICacheElement).item;
   }
 
   public removeByKey(key: string): void {

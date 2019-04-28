@@ -1,5 +1,5 @@
 export interface ILocationInformation {
-    name: string;
-    code: string;
-    localDateTime: number;
+  name: string;
+  code: string;
+  localDateTime: number;
 }

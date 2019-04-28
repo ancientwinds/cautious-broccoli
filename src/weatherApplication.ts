@@ -8,7 +8,6 @@ import {IOHelper} from './helpers/IOHelper';
 import {CorruptedCacheSerializationError} from './errors/corruptedCacheSerializationError';
 import {FileNotFoundError} from './errors/fileNotFoundError';
 import {LogHelper, ArrayHelper, DateTimeHelper} from './helpers/helpers';
-import {textSync} from 'figlet';
 import {IWeatherApplication} from './interfaces/IWeatherApplication';
 import {LocationHelper} from './helpers/LocationHelper';
 import {ProcessHelper} from './helpers/ProcessHelper';
@@ -38,7 +37,7 @@ export class WeatherApplication implements IWeatherApplication {
     }
   }
 
-  private loadCacheFromFile(): void {
+  public loadCacheFromFile(): void {
     try {
       const serializedCacheData: string = IOHelper.LoadStringFromFile(`${WeatherApplication.name}.cache.json`);
 
@@ -60,7 +59,7 @@ export class WeatherApplication implements IWeatherApplication {
     }
   }
 
-  private persistCacheToFile(): void {
+  public persistCacheToFile(): void {
     try {
       const serializedCacheData: string = this.weatherService.serializeCache();
 
@@ -72,11 +71,13 @@ export class WeatherApplication implements IWeatherApplication {
 
   private displayWeatherInformation(weatherResponse: IWeatherInformation): void {
     let message: string[] = [];
-    message.push(chalk.bgGreen(`Weather data for: ${weatherResponse.location.name}.`));
+    message.push(chalk.bgBlue.white.bold(`${weatherResponse.location.name}`.padEnd(80)));
+    message.push(`\tDescription: ${weatherResponse.description}`);
     message.push(`\tLocal date and time: ${DateTimeHelper.FormatDateTime(weatherResponse.location.localDateTime)}.`);
     message.push(`\tLocal observation date and time: ${DateTimeHelper.FormatDateTime(weatherResponse.localObservationDateTime)}.`);
     message.push(`\tCurrent temperature: ${weatherResponse.temperature.metric.value} °C (${weatherResponse.temperature.imperial.value} °F)`);
     message.push(`\tGet more information by visiting ${weatherResponse.link}`);
+    message.push('');
 
     LogHelper.Log(message.join('\n'));
   }
@@ -85,7 +86,7 @@ export class WeatherApplication implements IWeatherApplication {
     LogHelper.Error(JSON.stringify(error));
   }
 
-  public fetchWeatherInformation(locations: string[]): void {
+  public fetchWeatherInformation(locations: string[]): Promise<void>[] {
     if (locations.length === 0) {
       LogHelper.Error('Wrong number of arguments. You must specify at least 1 location. You can also specify multiple locations separated by comas (\',\')');
       process.exit(0);
@@ -95,33 +96,32 @@ export class WeatherApplication implements IWeatherApplication {
     locations = LocationHelper.CleanLocations(locations);
     locations = LocationHelper.ExtractGeoCoordinates(locations);
 
+    const locationsPromises: Promise<void>[] = [];
     locations.forEach(
       (location: string) => { 
-        this.weatherService.fetchWeatherInformation(location)
-          .catch(
-            (error) => {
-              this.displayError(error);
-            }
-          );
+        locationsPromises.push(this.weatherService.fetchWeatherInformation(location));
       }
-    )
+    );
+    
+    return locationsPromises;
   }
 
-  public run(): Promise<void> {
-    try {
-      LogHelper.Log(textSync('Welcome into Weather Service'));
+  public async run(): Promise<void> {
+    LogHelper.Title('Weather Application');
 
-      const args: string[] = ProcessHelper.ParseArguments();
+    const args: string[] = ProcessHelper.ParseArguments();
 
-      this.fetchWeatherInformation(args);
-
-
-    } catch (error) {
-      LogHelper.Error(`An unexpected error happened: ${JSON.stringify(error)}`);
-    } finally {
-      this.persistCacheToFile();
-    }
-
-    return Promise.resolve();
+    const locationsPromises: Promise<void>[] = this.fetchWeatherInformation(args);
+    await Promise.all(locationsPromises)
+      .then(
+        () => {
+          return Promise.resolve();
+        }
+      )
+      .catch(
+        () => {
+          return Promise.reject();
+        }
+      );
   }
 }

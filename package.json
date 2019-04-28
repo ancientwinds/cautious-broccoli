@@ -6,7 +6,7 @@
   "scripts": {
     "test": "nyc mocha -r ts-node/register 'test/**/*.spec.ts'",
     "build": "tsc",
-    "start": "tsc && node ./bin/src/weather.js \"G2E2E7, L'Ancienne-Lorette, Montréal New-York, 80,122\""
+    "start": "tsc && node ./bin/src/weather.js \"Vanier, Ottawa\""
   },
   "repository": {
     "type": "git",
