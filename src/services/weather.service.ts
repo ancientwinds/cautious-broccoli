@@ -2,31 +2,39 @@ import 'reflect-metadata';
 import {injectable, inject} from "inversify";
 import * as Request from 'request-promise-native';
 import {Subject} from 'rxjs';
-import {IWeatherService} from '../interfaces/IWeatherService';
-import {IWeatherInformation} from '../interfaces/IWeatherInformation';
-import {TemperatureUnits} from '../enumerations/TemperatureUnits';
+import {IWeatherService} from '../interfaces/iWeatherService';
+import {IWeatherInformation} from '../interfaces/iWeatherInformation';
+import {TemperatureUnits} from '../enumerations/temperatureUnits';
 import {TYPES} from '../types/injectableTypes';
-import {ISimpleCacheService} from '../interfaces/ISimpleCacheService';
+import {ISimpleCacheService} from '../interfaces/iSimpleCacheService';
 import {DateTimeHelper} from '../helpers/helpers';
 import {LocationNotFoundError} from '../errors/customErrors';
-import {ILocationInformation} from '../interfaces/ILocationInformation';
+import {ILocationInformation} from '../interfaces/iLocationInformation';
 
 @injectable()
 export class WeatherService implements IWeatherService {
-  private simpleCacheService: ISimpleCacheService
+  public readonly messages: Subject<IWeatherInformation> = new Subject<IWeatherInformation>();
+
+  private simpleCacheService: ISimpleCacheService;
   private readonly ACCUWEATHER_API_URL: string = 'https://dataservice.accuweather.com';
   private readonly ACCUWEATHER_API_KEY: string = process.env.ACCUWEATHER_API_KEY || '';
-
-  public readonly messages: Subject<IWeatherInformation> = new Subject<IWeatherInformation>();
 
   constructor(@inject(TYPES.ISimpleCacheService) simpleCacheService: ISimpleCacheService) {
     this.simpleCacheService = simpleCacheService;
   }
 
+  public serializeCache(): string {
+    return this.simpleCacheService.serialize();
+  }
+
+  public deserializeCache(serialization: string): void {
+    this.simpleCacheService.deserialize(serialization);
+  }
+
   public async fetchWeatherInformation(location: string): Promise<void> {
     try {
       // TODO: Implement an exponential backoff strategy if failure due to network
-      let locationInformation: ILocationInformation = await this.getLocationInformation(location);
+      const locationInformation: ILocationInformation = await this.getLocationInformation(location);
 
       if (locationInformation) {
         await this.getCurrentWeatherInformation(locationInformation)
@@ -127,13 +135,5 @@ export class WeatherService implements IWeatherService {
     }
 
     return Promise.resolve(weatherInformation);
-  }
-
-  public serializeCache(): string {
-    return this.simpleCacheService.serialize();
-  }
-
-  public deserializeCache(serialization: string): void {
-    this.simpleCacheService.deserialize(serialization);
   }
 }

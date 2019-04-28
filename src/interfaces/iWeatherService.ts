@@ -1,5 +1,5 @@
 import {Subject} from 'rxjs';
-import {IWeatherInformation} from './IWeatherInformation';
+import {IWeatherInformation} from './iWeatherInformation';
 
 export interface IWeatherService {
   messages: Subject<IWeatherInformation>;

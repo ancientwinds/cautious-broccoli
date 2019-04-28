@@ -1,4 +1,4 @@
-import {TemperatureUnits} from '../enumerations/TemperatureUnits';
+import {TemperatureUnits} from '../enumerations/temperatureUnits';
 
 export interface ITemperatureInfo {
   value: number;

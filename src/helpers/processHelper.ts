@@ -1,6 +1,6 @@
 export class ProcessHelper {
   public static ParseArguments(): string[] {
-    let [,, ...args] = process.argv;
+    const [,, ...args] = process.argv;
 
     if (args.length === 1) {
       return args[0].split(',');

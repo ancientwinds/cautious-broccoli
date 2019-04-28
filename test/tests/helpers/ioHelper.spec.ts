@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {IOHelper} from '../../../src/helpers/IOHelper';
+import {IOHelper} from '../../../src/helpers/iOHelper';
 import {FileNotFoundError} from '../../../src/errors/fileNotFoundError';
 import {unlinkSync} from 'fs';
 
@@ -19,7 +19,7 @@ describe('IOHelper', () => {
   describe('Load a string from a file', () => {
     it('Should load an existing file without any error', () => {
       const readTest = () => {
-        IOHelper.LoadStringFromFile(FILEPATH)   
+        IOHelper.LoadStringFromFile(FILEPATH);
       };
 
       expect(readTest).to.not.throw();    
@@ -28,7 +28,7 @@ describe('IOHelper', () => {
     it('Should throw an error on a non existing file', () => {
       const nonExistingPath: string = Math.random().toString(16);
       const readTest = () => {
-        IOHelper.LoadStringFromFile(nonExistingPath)   
+        IOHelper.LoadStringFromFile(nonExistingPath);  
       };
       expect(readTest).to.throw(new FileNotFoundError(nonExistingPath).message);
     });

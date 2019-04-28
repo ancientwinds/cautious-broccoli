@@ -1,13 +1,13 @@
 import {Container} from "inversify";
 import {TYPES} from "./types/injectableTypes";
-import {ISimpleCacheService} from './interfaces/ISimpleCacheService';
+import {ISimpleCacheService} from './interfaces/iSimpleCacheService';
 import {SimpleCacheService} from './services/simpleCache.service';
 import {WeatherService} from './services/weather.service';
-import {IWeatherService} from './interfaces/IWeatherService';
-import {IWeatherApplication} from './interfaces/IWeatherApplication'
+import {IWeatherService} from './interfaces/iWeatherService';
+import {IWeatherApplication} from './interfaces/iWeatherApplication';
 import {WeatherApplication} from './weatherApplication';
 
-var container = new Container();
+const container = new Container();
 
 container.bind<ISimpleCacheService>(TYPES.ISimpleCacheService).to(SimpleCacheService);
 container.bind<IWeatherService>(TYPES.IWeatherService).to(WeatherService);

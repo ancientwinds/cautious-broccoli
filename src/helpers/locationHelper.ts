@@ -1,5 +1,5 @@
-import {StringHelper} from './StringHelper';
-import {NumberHelper} from './NumberHelper';
+import {StringHelper} from './stringHelper';
+import {NumberHelper} from './numberHelper';
 
 export class LocationHelper {
   public static CleanLocations(locations: string[]): string[] {
@@ -22,11 +22,11 @@ export class LocationHelper {
         newLocations.push(splitLocations[0]);
         newLocations.push(splitLocations[1]);
       } else {
-        newLocations.push(location)
+        newLocations.push(location);
       }
     };
 
-    locations.forEach((location) => { splitEntryIfRequired(location) });
+    locations.forEach((location) => { splitEntryIfRequired(location); });
 
     return newLocations;
   }

@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {NumberHelper} from '../../../src/helpers/NumberHelper';
+import {NumberHelper} from '../../../src/helpers/numberHelper';
 
 describe('NumberHelper', () => {
   describe('IsNumber', () => {

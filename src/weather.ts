@@ -1,4 +1,4 @@
-import {IWeatherApplication} from './interfaces/IWeatherApplication';
+import {IWeatherApplication} from './interfaces/iWeatherApplication';
 import container from './container';
 import {TYPES} from './types/injectableTypes';
 import {LogHelper} from './helpers/helpers';

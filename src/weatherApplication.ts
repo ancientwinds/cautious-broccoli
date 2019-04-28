@@ -1,16 +1,15 @@
 import "reflect-metadata";
 import {inject, injectable} from 'inversify';
 import {TYPES} from './types/injectableTypes';
-import {IWeatherService} from './interfaces/IWeatherService';
+import {IWeatherService} from './interfaces/iWeatherService';
 import {Subscription} from 'rxjs';
-import {IWeatherInformation} from './interfaces/IWeatherInformation';
-import {IOHelper} from './helpers/IOHelper';
+import {IWeatherInformation} from './interfaces/iWeatherInformation';
+import {IOHelper} from './helpers/iOHelper';
 import {CorruptedCacheSerializationError} from './errors/corruptedCacheSerializationError';
-import {FileNotFoundError} from './errors/fileNotFoundError';
 import {LogHelper, ArrayHelper, DateTimeHelper} from './helpers/helpers';
-import {IWeatherApplication} from './interfaces/IWeatherApplication';
-import {LocationHelper} from './helpers/LocationHelper';
-import {ProcessHelper} from './helpers/ProcessHelper';
+import {IWeatherApplication} from './interfaces/iWeatherApplication';
+import {LocationHelper} from './helpers/locationHelper';
+import {ProcessHelper} from './helpers/processHelper';
 import chalk from 'chalk';
 
 @injectable()
@@ -23,18 +22,11 @@ export class WeatherApplication implements IWeatherApplication {
 
     this.weatherServiceSubscription = this.weatherService.messages.subscribe(
       (message: IWeatherInformation) => { this.displayWeatherInformation(message); },
-      (error) => { this.displayError(error) }
+      (error) => { this.displayError(error); }
     );
 
     this.validateEnvironmentSettings();
     this.loadCacheFromFile();
-  }
-
-  private validateEnvironmentSettings(): void {
-    if (!process.env.ACCUWEATHER_API_KEY) {
-      LogHelper.Error('Invalid API Key. Please export the accuweather api key in an environment variable named ACCUWEATHER_API_KEY');
-      process.exit(0);
-    }
   }
 
   public loadCacheFromFile(): void {
@@ -42,7 +34,7 @@ export class WeatherApplication implements IWeatherApplication {
       if (IOHelper.FileExists('weather.cache.json')) {
         const serializedCacheData: string = IOHelper.LoadStringFromFile('weather.cache.json');
 
-        this.weatherService.deserializeCache(serializedCacheData)
+        this.weatherService.deserializeCache(serializedCacheData);
       }
     } catch(error) {
       if (error instanceof CorruptedCacheSerializationError) {
@@ -62,23 +54,6 @@ export class WeatherApplication implements IWeatherApplication {
       // TODO: Check error type and handle accordingly
       LogHelper.Error(`An unknown error has been thrown when saving the cache serialization to a file: ${JSON.stringify(error)}`);
     }
-  }
-
-  private displayWeatherInformation(weatherResponse: IWeatherInformation): void {
-    let message: string[] = [];
-    message.push(chalk.bgBlue.white.bold(`${weatherResponse.location.name}`.padEnd(80)));
-    message.push(`\tDescription: ${weatherResponse.description}`);
-    message.push(`\tLocal date and time: ${DateTimeHelper.FormatDateTime(weatherResponse.location.localDateTime)}.`);
-    message.push(`\tLocal observation date and time: ${DateTimeHelper.FormatDateTime(weatherResponse.localObservationDateTime)}.`);
-    message.push(`\tCurrent temperature: ${weatherResponse.temperature.metric.value} °C (${weatherResponse.temperature.imperial.value} °F)`);
-    message.push(`\tGet more information by visiting ${weatherResponse.link}`);
-    message.push('');
-
-    LogHelper.Log(message.join('\n'));
-  }
-
-  private displayError(error: Error): void {
-    LogHelper.Error(JSON.stringify(error));
   }
 
   public fetchWeatherInformation(locations: string[]): Promise<void>[] {
@@ -118,5 +93,29 @@ export class WeatherApplication implements IWeatherApplication {
           return Promise.reject();
         }
       );
+  }
+
+  private validateEnvironmentSettings(): void {
+    if (!process.env.ACCUWEATHER_API_KEY) {
+      LogHelper.Error('Invalid API Key. Please export the accuweather api key in an environment variable named ACCUWEATHER_API_KEY');
+      process.exit(0);
+    }
+  }
+
+  private displayWeatherInformation(weatherResponse: IWeatherInformation): void {
+    const message: string[] = [];
+    message.push(chalk.bgBlue.white.bold(`${weatherResponse.location.name}`.padEnd(80)));
+    message.push(`\tDescription: ${weatherResponse.description}`);
+    message.push(`\tLocal date and time: ${DateTimeHelper.FormatDateTime(weatherResponse.location.localDateTime)}.`);
+    message.push(`\tLocal observation date and time: ${DateTimeHelper.FormatDateTime(weatherResponse.localObservationDateTime)}.`);
+    message.push(`\tCurrent temperature: ${weatherResponse.temperature.metric.value} °C (${weatherResponse.temperature.imperial.value} °F)`);
+    message.push(`\tGet more information by visiting ${weatherResponse.link}`);
+    message.push('');
+
+    LogHelper.Log(message.join('\n'));
+  }
+
+  private displayError(error: Error): void {
+    LogHelper.Error(JSON.stringify(error));
   }
 }

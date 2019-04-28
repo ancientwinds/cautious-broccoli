@@ -1,14 +1,12 @@
 import 'reflect-metadata';
 import {injectable} from "inversify";
-import {ICacheElement} from '../interfaces/ICacheElement';
+import {ICacheElement} from '../interfaces/iCacheElement';
 import {CorruptedCacheSerializationError} from '../errors/corruptedCacheSerializationError';
-import {ISimpleCacheService} from '../interfaces/ISimpleCacheService';
+import {ISimpleCacheService} from '../interfaces/iSimpleCacheService';
 
 @injectable()
 export class SimpleCacheService implements ISimpleCacheService {
   public cachedItems: any = {};
-
-  constructor() {}
 
   public set(key: string, item: any): void {
     const cacheElement: ICacheElement = {

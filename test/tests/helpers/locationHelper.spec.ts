@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {LocationHelper} from '../../../src/helpers/LocationHelper'
+import {LocationHelper} from '../../../src/helpers/locationHelper';
 
 describe('LocationHelper', () => {
   const testLocations: string[] = ['city1', 'city2,', 'city3 ', 'city4, ', '33.4567,102.2222', '84', '123'];

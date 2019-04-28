@@ -1,5 +1,5 @@
-import {ITemperatureInfo} from './ITemperatureInfo';
-import {ILocationInformation} from './ILocationInformation';
+import {ITemperatureInfo} from './iTemperatureInfo';
+import {ILocationInformation} from './iLocationInformation';
 
 export interface IWeatherInformation {
   location: ILocationInformation;
@@ -8,6 +8,6 @@ export interface IWeatherInformation {
   temperature: {
     metric: ITemperatureInfo,
     imperial: ITemperatureInfo
-  }
-  link: string
+  };
+  link: string;
 }
