@@ -63,3 +63,5 @@ typings/
 bin/
 
 dist/weather\.cache\.json
+
+WeatherApplication\.cache\.json

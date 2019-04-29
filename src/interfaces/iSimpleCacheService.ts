@@ -1,5 +1,3 @@
-import {Subject} from 'rxjs';
-
 export interface ISimpleCacheService {
   cachedItems: any;
 
