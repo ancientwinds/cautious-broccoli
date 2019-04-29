@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import {injectable} from "inversify";
+import {injectable} from 'inversify';
 import {ICacheElement} from '../interfaces/iCacheElement';
 import {CorruptedCacheSerializationError} from '../errors/corruptedCacheSerializationError';
 import {ISimpleCacheService} from '../interfaces/iSimpleCacheService';

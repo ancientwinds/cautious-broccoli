@@ -1,5 +1,5 @@
-import {Container} from "inversify";
-import {TYPES} from "./types/injectableTypes";
+import {Container} from 'inversify';
+import {TYPES} from './types/injectableTypes';
 import {ISimpleCacheService} from './interfaces/iSimpleCacheService';
 import {SimpleCacheService} from './services/simpleCache.service';
 import {WeatherService} from './services/weather.service';

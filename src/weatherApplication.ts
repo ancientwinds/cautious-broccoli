@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import 'reflect-metadata';
 import {inject, injectable} from 'inversify';
 import {TYPES} from './types/injectableTypes';
 import {IWeatherService} from './interfaces/iWeatherService';

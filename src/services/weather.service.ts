@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import {injectable, inject} from "inversify";
+import {injectable, inject} from 'inversify';
 import * as Request from 'request-promise-native';
 import {Subject} from 'rxjs';
 import {IWeatherService} from '../interfaces/iWeatherService';
