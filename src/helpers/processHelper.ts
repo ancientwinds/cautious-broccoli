@@ -6,6 +6,6 @@ export class ProcessHelper {
       return args[0].split(',');
     }
 
-    return args;
+    return args.join(' ').split(',');
   }
 }
