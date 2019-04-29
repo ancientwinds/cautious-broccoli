@@ -15,6 +15,6 @@ application.run()
   )
   .catch(
     (error) => {
-      LogHelper.Error(`Oups... an unexpected error happened. Please contact the developper. (${JSON.stringify(error)})`);
+      LogHelper.Error(`Oups... an unexpected error happened. Please contact the developer. (${JSON.stringify(error)})`);
     }
   );
